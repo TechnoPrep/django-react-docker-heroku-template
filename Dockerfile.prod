@@ -21,6 +21,7 @@ COPY ./backend/scripts/ /app/
 RUN yarn build
 
 RUN mkdir /app/backend/staticfiles
+RUN cp -r /app/frontend/build/* /app/backend/staticfiles/
 
 # HACK: Work around a compatibility issue between Django Rest Framework and Django 4.1
 #
@@ -34,7 +35,7 @@ RUN mkdir /app/backend/staticfiles
 #
 # [0] https://docs.djangoproject.com/en/4.1/releases/4.1/#django-contrib-staticfiles
 # [1] https://github.com/encode/django-rest-framework/pull/8591
-RUN find "$(python -c 'import rest_framework as rf; print(rf.__path__[0])')" -name '*.min.css' -exec touch '{}.map' \;
+# RUN find "$(python -c 'import rest_framework as rf; print(rf.__path__[0])')" -name '*.min.css' -exec touch '{}.map' \;
 
 WORKDIR /app
 
@@ -42,4 +43,10 @@ WORKDIR /app
 # Add a real SECRET_KEY config variable in Heroku.
 RUN DJANGO_SETTINGS_MODULE=core.settings \
     SECRET_KEY=KEY_ONLY_FOR_STATIC_FILES \
-    python3 backend/manage.py collectstatic --noinput
+    python3 backend/manage.py collectstatic --noinput:q
+
+# Expose port
+EXPOSE $PORT
+
+# Run the application
+CMD ["gunicorn", "core.wsgi:application", "--bind", "0.0.0.0:$PORT"]

@@ -44,5 +44,5 @@ WORKDIR /app/backend
 
 # Be sure to use 0.0.0.0 for the host within the Docker container,
 # otherwise the browser won't be able to find it
-RUN ["chmod", "+x", "/app/entrypoint-dev.sh"]
-ENTRYPOINT [ "/app/entrypoint-dev.sh" ]
+RUN ["chmod", "+x", "/app/entrypoint-prod.sh"]
+ENTRYPOINT [ "/app/entrypoint-prod.sh" ]
