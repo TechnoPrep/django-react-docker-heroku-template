@@ -44,19 +44,18 @@ INSTALLED_APPS = [
     "contracts",
 ]
 
-if not DEBUG:
-    INSTALLED_APPS.append("whitenoise.runserver_nostatic")
+INSTALLED_APPS.append("whitenoise.runserver_nostatic")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
@@ -112,7 +111,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
-
 STATICFILES_DIRS = [os.path.join(ROOT_DIR, "frontend", "build", "assets")]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 STATIC_ROOT = os.path.join(ROOT_DIR, "staticfiles")
@@ -122,7 +120,9 @@ WHITENOISE_ROOT = os.path.join(ROOT_DIR, "frontend", "build")
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS headers configuration
-CORS_ALLOW_ALL_ORIGINS = DEBUG
+CORS_ALLOWED_ORIGINS = [
+    'https://django-react-heroku-test-1de48afcdf56.herokuapp.com',
+]
 
 # required by django.contrib.sites
 SITE_ID = 1
