@@ -127,12 +127,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(ROOT_DIR, "frontend", "build", "assets")]
 
-# Whitenoise static file storage
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'client', 'dist')]
+# type of static files storage
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# directory to which Django will move those static assets and from which it will serve them when the app is running
+STATIC_ROOT = os.path.join(ROOT_DIR, "staticfiles")
+
+STATIC_URL = "/static/"
+
+# directory where WhiteNoise can find all non-html static assets
 WHITENOISE_ROOT = os.path.join(ROOT_DIR, "frontend", "build")
 
 # Default primary key field type
