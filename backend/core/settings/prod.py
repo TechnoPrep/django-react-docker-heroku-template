@@ -4,7 +4,7 @@ Configuration for deployment to Heroku with Dockerfile.prod
 import os
 
 import dj_database_url
-from Ledgifier.settings.base import *
+from core.settings.base import *
 
 # project directory
 ROOT_DIR = BASE_DIR.parent

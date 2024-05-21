@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from Ledgifier.middleware.jwt_middleware import validate_jwt_token
+from core.middleware.jwt_middleware import validate_jwt_token
 from dotenv import load_dotenv
 import os
 from pinecone import Pinecone
@@ -15,7 +15,7 @@ import openai
 import google.generativeai as genai
 from web3 import Web3, AsyncWeb3
 from eth_account import Account
-from web3.contract import Contract
+from web3.contract.contract import Contract
 from .serializers import ContractSerializer
 from .models import Contract
 from solcx import compile_standard, install_solc

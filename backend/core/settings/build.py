@@ -3,7 +3,7 @@ Configuration for build with Docker - local simulation of production.
 """
 import os
 
-from Ledgifier.settings.base import *
+from core.settings.base import *
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'development')
 

@@ -3,7 +3,7 @@ Configuration for development with Docker.
 """
 import os
 
-from Ledgifier.settings.base import *
+from core.settings.base import *
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', 'development')

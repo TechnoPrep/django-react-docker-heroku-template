@@ -4,8 +4,8 @@ from .serializers import ProjectSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
-from Ledgifier.middleware.jwt_middleware import validate_jwt_token
-from Ledgifier.middleware.super_user_middleware import jwt_super_user_middleware
+from core.middleware.jwt_middleware import validate_jwt_token
+from core.middleware.super_user_middleware import jwt_super_user_middleware
 
 
 class Projects(APIView):
