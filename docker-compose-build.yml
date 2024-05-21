@@ -15,7 +15,7 @@ services:
     depends_on:
       - db
     environment:
-      - DJANGO_SETTINGS_MODULE=core.settings.build
+      - DJANGO_SETTINGS_MODULE=core.settings
 
   db:
     container_name: db
