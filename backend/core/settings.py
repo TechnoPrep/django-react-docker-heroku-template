@@ -23,7 +23,7 @@ ROOT_DIR = BASE_DIR.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'development_without_docker')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', True) 
+DEBUG = False
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost").split(",")
 
@@ -59,8 +59,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-if not DEBUG:
-    MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
+MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
 
 ROOT_URLCONF = 'core.urls'
 
@@ -114,11 +113,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 
-if not DEBUG:
-    STATICFILES_DIRS = [os.path.join(ROOT_DIR, "frontend", "build", "assets")]
-    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-    STATIC_ROOT = os.path.join(ROOT_DIR, "staticfiles")
-    WHITENOISE_ROOT = os.path.join(ROOT_DIR, "frontend", "build")
+STATICFILES_DIRS = [os.path.join(ROOT_DIR, "frontend", "build", "assets")]
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATIC_ROOT = os.path.join(ROOT_DIR, "staticfiles")
+WHITENOISE_ROOT = os.path.join(ROOT_DIR, "frontend", "build")
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
