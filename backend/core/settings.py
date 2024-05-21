@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
-import django_heroku
+import dj_database_url
 
 def get_env_variable(var_name):
     """ Get the environment variable or return exception """
@@ -23,21 +23,20 @@ def get_env_variable(var_name):
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+ROOT_DIR = BASE_DIR.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = get_env_variable("DJANGO_SECRET_KEY")
+SECRET_KEY = get_env_variable("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = get_env_variable("DJANGO_ALLOWED_HOSTS").split(",")
-
+ALLOWED_HOSTS = get_env_variable("PRODUCTION_HOST").split(",")
 
 # Application definition
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -51,6 +50,8 @@ INSTALLED_APPS = [
     "contracts",
 ]
 
+INSTALLED_APPS.extend(["whitenoise.runserver_nostatic"])
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -61,6 +62,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware"
 ]
 
 ROOT_URLCONF = "Ledgifier.urls"
@@ -68,7 +70,7 @@ ROOT_URLCONF = "Ledgifier.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(ROOT_DIR, "frontend", "build")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -90,16 +92,11 @@ WSGI_APPLICATION = "Ledgifier.wsgi.application"
 from os import getenv
 from dotenv import load_dotenv
 
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
 # Replace the DATABASES section of your settings.py with this
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': "ledgifier",
-        'USER': get_env_variable('LEDGIFIER_DB_USER'),
-        'PASSWORD': get_env_variable('LEDGIFIER_DB_PASSWORD'),
-        'HOST': get_env_variable('LEDGIFIER_DB_HOST'),  # Or an IP Address that your DB is hosted on
-        'PORT': get_env_variable('LEDGIFIER_DB_PORT'),
-    }
+    'default': dj_database_url.config(default=DATABASE_URL)
 }
 
 
@@ -143,8 +140,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Whitenoise static file storage
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'client', 'dist')]
-
-django_heroku.settings(locals())
+WHITENOISE_ROOT = os.path.join(ROOT_DIR, "frontend", "build")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

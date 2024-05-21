@@ -46,4 +46,4 @@ web3
 py-solc-x
 eth_tester
 anthropic
-django_heroku
+dj_database_url
