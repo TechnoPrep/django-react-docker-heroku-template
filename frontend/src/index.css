@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ant-modal-content{
+    padding-bottom: 10px !important;
+}
+
+.ant-picker-ok .ant-btn {
+    color: lightskyblue !important;
+}
+
+/* .ant-picker-ok:hover {}   */

@@ -4,7 +4,7 @@ Configuration for deployment to Heroku with Dockerfile.prod
 import os
 
 import dj_database_url
-from core.settings.base import *
+from Ledgifier.settings.base import *
 
 # project directory
 ROOT_DIR = BASE_DIR.parent
@@ -48,7 +48,7 @@ DATABASE_URL = os.environ.get('DATABASE_URL')
 
 # db config
 db_from_env = dj_database_url.config(
-    default=DATABASE_URL, conn_max_age=500, ssl_require=True
+    default=DATABASE_URL, conn_max_age=500, ssl_require=False
 )
 
 DATABASES['default'].update(db_from_env)
