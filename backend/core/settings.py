@@ -10,16 +10,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
-from django.core.exceptions import ImproperlyConfigured
 import dj_database_url
-
-def get_env_variable(var_name):
-    """ Get the environment variable or return exception """
-    try:
-        return os.environ[var_name]
-    except KeyError:
-        error_msg = f"Set the {var_name} environment variable"
-        raise ImproperlyConfigured(error_msg)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -29,12 +20,12 @@ ROOT_DIR = BASE_DIR.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = get_env_variable("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = get_env_variable("PRODUCTION_HOST").split(",")
+ALLOWED_HOSTS = os.environ.get("PRODUCTION_HOST")
 
 # Application definition
 INSTALLED_APPS = [
@@ -43,8 +34,11 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "corsheaders",
+    'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django_extensions',
+    'corsheaders',
+    'rest_framework',
     "projects",
     "users",
     "contracts",
@@ -89,9 +83,6 @@ WSGI_APPLICATION = "Ledgifier.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 # Add these at the top of your settings.py
-from os import getenv
-from dotenv import load_dotenv
-
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
 # Replace the DATABASES section of your settings.py with this
@@ -127,6 +118,8 @@ LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 
 USE_I18N = True
+
+USE_L10N = True
 
 USE_TZ = True
 
