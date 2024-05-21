@@ -43,7 +43,7 @@ WORKDIR /app
 # Add a real SECRET_KEY config variable in Heroku.
 RUN DJANGO_SETTINGS_MODULE=core.settings \
     SECRET_KEY=KEY_ONLY_FOR_STATIC_FILES \
-    python3 backend/manage.py collectstatic --noinput:q
+    python3 backend/manage.py collectstatic --noinput
 
 # Expose port
 EXPOSE $PORT
